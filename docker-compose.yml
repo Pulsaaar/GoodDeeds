@@ -20,6 +20,7 @@ services:
     container_name: backend
     environment:
       DATABASE_URL: postgres://postgres:postgres@postgres:5432/database?schema=public
+      CORS_ORIGIN: http://localhost:3000
     depends_on:
       - postgres
     ports:
@@ -32,10 +33,27 @@ services:
       context: ./gooddeeds
       dockerfile: Dockerfile
     container_name: frontend
+    environment:
+      NEXTAUTH_SECRET: supersecretcode
+      NEXTAUTH_URL: http://localhost:3000 
+      NEXT_PUBLIC_API_URL: http://localhost/api
     ports:
       - "3000:3000"
     networks:
       - my_network
+
+  nginx:
+    image: nginx:latest
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+    depends_on:
+      - frontend
+      - backend
+    networks:
+      - my_network
+
 
 volumes:
   postgres_data:

@@ -9,6 +9,8 @@ interface ExtendedUser extends User {
   password: string;
 }
 
+const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+
 const handler = NextAuth({
   providers: [
     CredentialsProvider({
@@ -18,7 +20,7 @@ const handler = NextAuth({
         password: { label: "Password", type: "password" }
       },
       async authorize(credentials) {
-        const response = await fetch(`http://localhost:5000/user/verify/${credentials?.email}`, {
+        const response = await fetch(`${apiUrl}/user/verify/${credentials?.email}`, {
           method: 'GET',
           headers: {
               'Content-Type': 'application/json',
@@ -33,6 +35,7 @@ const handler = NextAuth({
       }
     })
   ],
+  secret: process.env.NEXTAUTH_SECRET,
   callbacks: {
     async jwt({ token, user }: { token: JWT; user?: ExtendedUser }) {
       if (user) {

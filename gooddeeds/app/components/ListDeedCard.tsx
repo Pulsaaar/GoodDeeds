@@ -5,6 +5,8 @@ import { Row, Col } from 'antd';
 import { useSession } from 'next-auth/react';
 import { useState, useEffect } from 'react';
 
+const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+
 const ListDeed = () => {
     const [deeds, setDeeds] = useState([]);
     const { data: session, status } = useSession();
@@ -23,7 +25,7 @@ const ListDeed = () => {
       if (status === 'authenticated') {
           const fetchDeeds = async () => {
               try {
-                  const response = await fetch(`http://localhost:5000/deeds/user/${session?.user.id}`, {
+                  const response = await fetch(`${apiUrl}/deeds/user/${session?.user.id}`, {
                       method: 'GET',
                       headers: {
                           'Content-Type': 'application/json',

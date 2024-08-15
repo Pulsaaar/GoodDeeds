@@ -9,14 +9,16 @@ interface RegisterFormValues {
   email: string;
   password: string;
 }
+const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
 const Reg: NextPage = () => {
   const [loading, setLoading] = useState(false);
 
   const onFinish = (values: RegisterFormValues) => {
     setLoading(true);
+    console.log(apiUrl);
     // Логика для отправки данных на сервер
-    fetch('http://localhost:5000/user', {
+    fetch(`http://backend:5000/user`, {
       method: 'POST', 
       headers: {
         'Content-Type': 'application/json',

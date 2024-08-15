@@ -3,6 +3,7 @@ import { Card, Button, Form, Input } from 'antd';
 import { DeleteOutlined, EditOutlined} from '@ant-design/icons';
 
 const { Meta } = Card;
+const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
 interface GoodDeedCardProps {
   id: number;
@@ -26,7 +27,7 @@ const GoodDeedCard: React.FC<GoodDeedCardProps> = ({ id, title, description, onD
 
   const handleSubmit = (values: any) => {
     setIsEditing(false);
-    fetch(`http://localhost:5000/deeds/${id}`, {
+    fetch(`${apiUrl}/deeds/${id}`, {
       method: 'PATCH',
       headers: {
           'Content-Type': 'application/json'
@@ -37,7 +38,7 @@ const GoodDeedCard: React.FC<GoodDeedCardProps> = ({ id, title, description, onD
 };
 
   const deleteDeed = () => {
-    fetch(`http://localhost:5000/deeds/${id}`, {
+    fetch(`${apiUrl}/deeds/${id}`, {
       method: 'DELETE', 
       headers: {
         'Content-Type': 'application/json',

@@ -6,7 +6,10 @@ import { Button, Form, Input } from 'antd';
 import { useSession } from "next-auth/react";
 import { useState } from "react";
 
-const Tasks: React.FC = () => {
+const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+
+
+const Deeds: React.FC = () => {
   const [form] = Form.useForm();
   const [formVisible, setFormVisible] = useState(false);
   const { data: session, status } = useSession();
@@ -16,7 +19,7 @@ const Tasks: React.FC = () => {
   };
 
   const handleFinish = (values: any) => {
-    fetch(`http://localhost:5000/deeds`, {
+    fetch(`${apiUrl}/deeds`, {
       method: 'POST', 
       headers: {
         'Content-Type': 'application/json',
@@ -78,4 +81,4 @@ const Tasks: React.FC = () => {
 
 }
 
-export default Tasks
+export default Deeds;

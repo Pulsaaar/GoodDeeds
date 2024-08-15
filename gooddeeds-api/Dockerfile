@@ -21,4 +21,7 @@ RUN npx prisma generate
 COPY . .
 
 # Команда для запуска в режиме разработки
-CMD ["sh", "-c", "npx prisma migrate dev && npm run start:dev"]
+CMD ["npx", "prisma", "migrate", "dev", "--name", "init"] 
+CMD ["npm", "run", "start"]
+
+EXPOSE 5000
