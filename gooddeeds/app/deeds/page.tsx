@@ -13,6 +13,7 @@ const Deeds: React.FC = () => {
   const [form] = Form.useForm();
   const [formVisible, setFormVisible] = useState(false);
   const { data: session, status } = useSession();
+  const [refreshDeeds, setRefreshDeeds] = useState(false);
 
   const toggleForm = () => {
     setFormVisible(!formVisible);
@@ -34,7 +35,7 @@ const Deeds: React.FC = () => {
         } 
       }),
     });
-      
+    setRefreshDeeds(!refreshDeeds);
     form.resetFields();
     toggleForm();
     };
@@ -75,7 +76,7 @@ const Deeds: React.FC = () => {
           </Form>
           </div>)}
 
-      <ListDeed/>
+      <ListDeed refreshDeeds={refreshDeeds}/>
     </div>
   )
 

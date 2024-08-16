@@ -7,7 +7,7 @@ import { useState, useEffect } from 'react';
 
 const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
-const ListDeed: React.FC = () => {
+const ListDeed: React.FC<{refreshDeeds: boolean}> = ({ refreshDeeds }) => {
     const [deeds, setDeeds] = useState([]);
     const { data: session, status } = useSession();
 
@@ -40,7 +40,7 @@ const ListDeed: React.FC = () => {
 
           fetchDeeds();
       }
-  }, [session]); 
+  }, [session, refreshDeeds]); 
 
   return (
     <div style={{ padding: '20px' }}>
