@@ -18,7 +18,7 @@ const Reg: NextPage = () => {
     setLoading(true);
     console.log(apiUrl);
     // Логика для отправки данных на сервер
-    fetch(`http://backend:5000/user`, {
+    fetch(`${apiUrl}/user`, {
       method: 'POST', 
       headers: {
         'Content-Type': 'application/json',
