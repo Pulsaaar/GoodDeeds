@@ -14,6 +14,6 @@ RUN npm install --frozen-lockfile
 COPY . .
 
 # Команда для запуска в режиме разработки
-CMD ["npm", "run", "dev"]
+CMD ["sh", "-c", "npx prisma migrate dev --name init; npm run start"]
 
 EXPOSE 3000
