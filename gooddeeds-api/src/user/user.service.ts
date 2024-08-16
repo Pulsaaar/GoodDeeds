@@ -12,13 +12,12 @@ export class UserService {
     return this.prisma.user.create({ data });
   }
 
-  async checkPasswd() {
-    const isMatch = await bcrypt.compare('1123', '$2b$10$sBHF7sxTns1e/Mty4/1ZneFhmwoezJZXjNv.cy4IWrnWwbV4St7lu')
-    return isMatch;
-  }
-
   async findUserByEmail(email: string) {
     return await this.prisma.user.findUnique({ where: { email } });
+  }
+
+  async findUserByTag(tag: string) {
+    return (await this.prisma.user.findUnique({ where: { tag } })).id;
   }
 
   async findAll() {

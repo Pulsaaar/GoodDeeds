@@ -16,7 +16,9 @@ const items: MenuItem[] = [
     icon: <SettingOutlined />,
 },
 {
-    label: 'Friends',
+    label: (
+    <Link href="/friend">Friends</Link>
+    ),
     key: 'friends',
     icon: <TeamOutlined />,
 },

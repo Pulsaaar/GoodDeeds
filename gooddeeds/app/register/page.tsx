@@ -16,7 +16,6 @@ const Reg: NextPage = () => {
 
   const onFinish = (values: RegisterFormValues) => {
     setLoading(true);
-    console.log(apiUrl);
     // Логика для отправки данных на сервер
     fetch(`${apiUrl}/user`, {
       method: 'POST', 

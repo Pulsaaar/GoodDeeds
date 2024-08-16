@@ -8,7 +8,7 @@ WORKDIR /app
 COPY package*.json ./
 
 # Устанавливаем зависимости
-RUN npm install --frozen-lockfile
+RUN npm install
 
 # Копируем весь остальной код
 COPY . .

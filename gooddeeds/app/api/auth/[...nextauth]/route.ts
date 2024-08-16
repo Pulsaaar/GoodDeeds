@@ -1,6 +1,7 @@
 import NextAuth, { User, Session } from "next-auth"
 import CredentialsProvider from "next-auth/providers/credentials";
 import { JWT } from "next-auth/jwt";
+import * as bcrypt from "bcrypt"
 
 interface ExtendedUser extends User {
   id: string;
@@ -27,10 +28,10 @@ const handler = NextAuth({
           },
         })
         const user = await response.json();
-        if (credentials && credentials.email) {
+        if (credentials) {
           return user;
         } else {
-          return null
+          return null;
         }
       }
     })
@@ -58,7 +59,7 @@ const handler = NextAuth({
   },
   pages: {
     signIn: "/signin"
-  }
+  },
 })
 
 export { handler as GET, handler as POST }

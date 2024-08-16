@@ -7,11 +7,11 @@ import { useState, useEffect } from 'react';
 
 const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
-const ListDeed = () => {
+const ListDeed: React.FC = () => {
     const [deeds, setDeeds] = useState([]);
     const { data: session, status } = useSession();
 
-    const handleDeleteTask = (id: number) => {
+    const handleDeleteDeed = (id: number) => {
         setDeeds(deeds.filter(deed => deed.id !== id));
     };
 
@@ -31,12 +31,6 @@ const ListDeed = () => {
                           'Content-Type': 'application/json',
                       },
                   });
-
-                  if (!response.ok) {
-                      return (
-                          <div>У вас нет добрых дел </div>
-                      )
-                  }
                   const data = await response.json();
                   setDeeds(data);
               } catch (error) {
@@ -53,7 +47,7 @@ const ListDeed = () => {
         <Row justify="start" gutter={[24, 24]}>
             {deeds.map((deed) => (
             <Col key={deed.id} xs={24} sm={12} md={8} lg={6} xl={4}>
-                <GoodDeedCard id={deed.id} title={deed.title} description={deed.description} onDelete={handleDeleteTask} onEdit={handleEdit}/>
+                <GoodDeedCard id={deed.id} title={deed.title} description={deed.description} onDelete={handleDeleteDeed} onEdit={handleEdit}/>
             </Col>
         ))}
     </Row>

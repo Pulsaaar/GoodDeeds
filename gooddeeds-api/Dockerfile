@@ -9,7 +9,7 @@ WORKDIR /app
 COPY package*.json ./
 
 # Устанавливаем зависимости
-RUN npm install --frozen-lockfile
+RUN npm install
 
 # Копируем Prisma схему и генерируем Prisma Client
 COPY prisma ./prisma/

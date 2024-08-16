@@ -16,14 +16,13 @@ export class UserController {
     return this.userService.findUserByEmail(email);
   }
 
+  @Get('getid/:tag')
+  async findId(@Param('tag') tag: string) {
+    return this.userService.findUserByTag(tag);
+  }
 
   @Get()
   async findAll() {
     return this.userService.findAll();
-  }
-
-  @Get('q')
-  async checkPasswd() {
-    return this.userService.checkPasswd();
   }
 }
