@@ -1,7 +1,7 @@
-import NextAuth, { User, Session } from "next-auth"
+import NextAuth, { User, Session } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { JWT } from "next-auth/jwt";
-import * as bcrypt from "bcrypt"
+import * as bcrypt from "bcrypt";
 
 interface ExtendedUser extends User {
   id: string;
@@ -10,7 +10,7 @@ interface ExtendedUser extends User {
   password: string;
 }
 
-const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+const apiUrl = process.env.NEXT_PUBLIC_API_URL_SERVER;
 
 const handler = NextAuth({
   providers: [
@@ -18,23 +18,39 @@ const handler = NextAuth({
       name: "Credentials",
       credentials: {
         email: { label: "Email", type: "text", placeholder: "jsmith" },
-        password: { label: "Password", type: "password" }
+        password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
-        const response = await fetch(`${apiUrl}/user/verify/${credentials?.email}`, {
-          method: 'GET',
-          headers: {
-              'Content-Type': 'application/json',
-          },
-        })
-        const user = await response.json();
-        if (credentials && (await bcrypt.compare(credentials.password, user.password))) {
-          return user;
-        } else {
+        if (!credentials) {
           return null;
         }
-      }
-    })
+        const url_r = `${apiUrl}/user/verify/${credentials.email}`;
+        try {
+          
+          const response = await fetch(url_r, {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          });
+
+          if (!response.ok) {
+            throw new Error('Network response was not ok');
+          }
+
+          const user = await response.json();
+
+          if (user && credentials.password && await bcrypt.compare(credentials.password, user.password)) {
+            return user;
+          } else {
+            return null;
+          }
+        } catch (error) {
+          console.error("Error during authorization:", error, "\n", "URL: ", url_r);
+          return null;
+        }
+      },
+    }),
   ],
   secret: process.env.NEXTAUTH_SECRET,
   callbacks: {
@@ -47,7 +63,7 @@ const handler = NextAuth({
       }
       return token;
     },
-    async session({ session, token }: { session: Session | null; token: JWT }) {
+    async session({ session, token }: { session: Session; token: JWT }) {
       if (session?.user && token) {
         session.user.id = token.id as string;
         session.user.email = token.email as string;
@@ -58,8 +74,9 @@ const handler = NextAuth({
     },
   },
   pages: {
-    signIn: "/signin"
+    signIn: "/signin",
+    error: "/auth/error", // Добавим страницу ошибки
   },
-})
+});
 
-export { handler as GET, handler as POST }
+export { handler as GET, handler as POST };

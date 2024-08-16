@@ -20,7 +20,7 @@ services:
     container_name: backend
     environment:
       DATABASE_URL: postgres://postgres:postgres@postgres:5432/database?schema=public
-      CORS_ORIGIN: http://localhost:3000
+      CORS_ORIGIN: http://localhost
     depends_on:
       - postgres
     ports:
@@ -36,7 +36,8 @@ services:
     environment:
       NEXTAUTH_SECRET: supersecretcode
       NEXTAUTH_URL: http://localhost:3000
-      NEXT_PUBLIC_API_URL: http://localhost/api
+      NEXT_PUBLIC_API_URL: http://localhost/apiv
+      NEXT_PUBLIC_API_URL_SERVER: http://backend:5000
     ports:
       - "3000:3000"
     networks:
